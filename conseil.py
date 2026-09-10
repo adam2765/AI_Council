@@ -1,8 +1,6 @@
 import os
-import json
 from openai import OpenAI
 from dotenv import load_dotenv
-from ddgs import DDGS
 load_dotenv()
 
 
@@ -16,78 +14,17 @@ CONSEIL = ["openai/gpt-5-mini",        # le débatteur américain
 
 # juge = "anthropic/claude-sonnet-4.6"
 
-outils = [
-    {
-        "type": "function",
-        "function": {
-            "name": "recherche_web",
-            "description": "Cherche des informations récentes ou factuelles sur le web.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "requete": {
-                        "type": "string",
-                        "description": "Les mots-clés à rechercher.",
-                    }
-                },
-                "required": ["requete"],
-            },
-        },
-    }
-]
-
-
-def recherche_web(requete, nb_resultats=5):
-    try:
-        resultats = DDGS().text(requete, max_results=nb_resultats)
-        if not resultats:
-            return "Aucun résultat trouvé."
-        return "\n".join(
-            f"- {r['title']} : {r['body']} ({r['href']})" for r in resultats
-        )
-    except Exception as e:
-        return f"Erreur de recherche web : {e}"
-
 
 def demander(texte, model, max_tokens=1000, temperature=0.3):
     if texte == "":
         return None
-
-    messages = [{"role": "user", "content": texte}]
-
     try:
         reponse = client.chat.completions.create(
             model=model,
             max_tokens=max_tokens,
             temperature=temperature,
-            tools=outils,
-            messages=messages,
-        )
-        message = reponse.choices[0].message
-
-        if not message.tool_calls:
-            return message.content
-
-        messages.append(message)
-
-        appel = message.tool_calls[0]
-        arguments = json.loads(appel.function.arguments)
-        resultat = recherche_web(arguments["requete"])
-
-        messages.append({
-            "role": "tool",
-            "tool_call_id": appel.id,
-            "content": resultat,
-        })
-
-        reponse2 = client.chat.completions.create(
-            model=model,
-            max_tokens=max_tokens,
-            temperature=temperature,
-            messages=messages,
-        )
-        return reponse2.choices[0].message.content
-
+            messages=[{"role": "user", "content": texte}])
+        return reponse.choices[0].message.content
     except Exception as e:
         print(f"[{model}] erreur : {e}")
         return None

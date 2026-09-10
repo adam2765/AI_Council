@@ -22,9 +22,7 @@ désaccords visibles au lieu de les cacher derrière une réponse lisse.
 Le fonctionnement est calqué sur celui d'un jury.
 
 1. **Chacun répond seul.** Les quatre IA reçoivent la question sans savoir
-   ce que les autres ont répondu. Personne n'est influencé. Si un membre en
-   a besoin, il peut chercher sur le web avant de répondre — utile pour une
-   question qui dépend d'une information récente.
+   ce que les autres ont répondu. Personne n'est influencé.
 2. **Tout le monde lit tout le monde.** On renvoie à chaque IA les réponses
    des autres, en anonyme (« Membre 1 », « Membre 2 »…), et on lui demande
    soit de corriger son avis, soit de le maintenir en expliquant pourquoi.
@@ -83,7 +81,7 @@ et un compte sur **OpenRouter** ([openrouter.ai](https://openrouter.ai)) — un
 service qui donne accès à toutes ces IA via un seul abonnement, au lieu
 d'ouvrir un compte chez chaque fournisseur.
 
-Installer les bibliothèques nécessaires :
+Installer les deux bibliothèques nécessaires :
 
     pip install -r requirements.txt
 
@@ -101,12 +99,10 @@ Ce fichier n'est jamais partagé : il est exclu du dépôt.
 Le programme demande la question, réfléchit un moment, puis affiche la
 synthèse finale.
 
-**À savoir :** une seule question déclenche au moins 9 échanges avec les IA
-(4 au premier tour, 4 au second, 1 pour le président) — davantage si un
-membre décide de chercher sur le web, ce qui lui coûte un échange
-supplémentaire. C'est facturé par OpenRouter, en général quelques
-centimes, mais ce n'est pas gratuit — et c'est aussi pour ça que la
-réponse met du temps à arriver.
+**À savoir :** une seule question déclenche 9 échanges avec les IA
+(4 au premier tour, 4 au second, 1 pour le président). C'est facturé par
+OpenRouter, en général quelques centimes, mais ce n'est pas gratuit — et
+c'est aussi pour ça que la réponse met du temps à arriver.
 
 ## Ce qui reste à faire
 
