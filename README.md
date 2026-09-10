@@ -22,7 +22,9 @@ désaccords visibles au lieu de les cacher derrière une réponse lisse.
 Le fonctionnement est calqué sur celui d'un jury.
 
 1. **Chacun répond seul.** Les quatre IA reçoivent la question sans savoir
-   ce que les autres ont répondu. Personne n'est influencé.
+   ce que les autres ont répondu. Personne n'est influencé. Si un membre en
+   a besoin, il peut chercher sur le web avant de répondre — utile pour une
+   question qui dépend d'une information récente.
 2. **Tout le monde lit tout le monde.** On renvoie à chaque IA les réponses
    des autres, en anonyme (« Membre 1 », « Membre 2 »…), et on lui demande
    soit de corriger son avis, soit de le maintenir en expliquant pourquoi.
@@ -77,18 +79,21 @@ président s'affiche — voici à quoi elle ressemble :
 ## Installation
 
 Il faut **Python** installé sur la machine ([python.org](https://www.python.org/downloads/)),
-et un compte sur **OpenRouter** ([openrouter.ai](https://openrouter.ai)) — un
+un compte sur **OpenRouter** ([openrouter.ai](https://openrouter.ai)) — un
 service qui donne accès à toutes ces IA via un seul abonnement, au lieu
-d'ouvrir un compte chez chaque fournisseur.
+d'ouvrir un compte chez chaque fournisseur — et un compte sur **Tavily**
+([tavily.com](https://tavily.com)), qui fournit la recherche web utilisée
+par les membres du conseil (offre gratuite disponible).
 
-Installer les deux bibliothèques nécessaires :
+Installer les bibliothèques nécessaires :
 
     pip install -r requirements.txt
 
-Créer un fichier nommé `.env` à côté du programme, contenant la clé
-personnelle fournie par OpenRouter :
+Créer un fichier nommé `.env` à côté du programme, contenant les deux clés
+personnelles :
 
     OPENROUTER_API_KEY=votre_clé_ici
+    TAVILY_API_KEY=votre_clé_ici
 
 Ce fichier n'est jamais partagé : il est exclu du dépôt.
 
@@ -99,10 +104,13 @@ Ce fichier n'est jamais partagé : il est exclu du dépôt.
 Le programme demande la question, réfléchit un moment, puis affiche la
 synthèse finale.
 
-**À savoir :** une seule question déclenche 9 échanges avec les IA
-(4 au premier tour, 4 au second, 1 pour le président). C'est facturé par
-OpenRouter, en général quelques centimes, mais ce n'est pas gratuit — et
-c'est aussi pour ça que la réponse met du temps à arriver.
+**À savoir :** une seule question déclenche au moins 9 échanges avec les IA
+(4 au premier tour, 4 au second, 1 pour le président) — davantage si un
+membre décide de chercher sur le web, ce qui lui coûte un échange
+supplémentaire et une recherche Tavily. C'est facturé par OpenRouter (en
+général quelques centimes) et par Tavily (offre gratuite limitée), mais ce
+n'est pas gratuit à volonté — et c'est aussi pour ça que la réponse met du
+temps à arriver.
 
 ## Ce qui reste à faire
 
@@ -124,8 +132,6 @@ Le programme fonctionne, mais c'est un prototype. Dans l'ordre d'importance :
 - **Poser la question directement** en ligne de commande, pour pouvoir
   automatiser des séries de questions.
 - **Afficher le coût** de chaque question.
-- **Supprimer l'appel de test** resté en fin de fichier, qui consomme un
-  échange inutile à chaque lancement.
 
 ## État
 
